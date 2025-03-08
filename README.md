@@ -1,2 +1,2 @@
-# AumniConnect
+# AlumniConnect
 Alumni connect for JIT
