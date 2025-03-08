@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Welcome to ALUMNQ{% endblock %}</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&family=Open+Sans:wght@300;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}"> <!-- External CSS -->
+    <style>
+        /* Add base styles that apply to the entire site */
+        body {
+            font-family: 'Open Sans', sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .header {
+            background-color: #2C3E50;
+            color: white;
+            padding: 10px 0;
+            text-align: center;
+        }
+
+        .footer {
+            background-color: #2C3E50;
+            color: white;
+            padding: 10px 0;
+            text-align: center;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+
+        .nav-bar {
+            display: flex;
+            justify-content: center;
+            background-color: #34495e;
+            padding: 10px;
+        }
+
+        .nav-bar a {
+            color: white;
+            padding: 10px 20px;
+            text-decoration: none;
+            font-size: 1em;
+        }
+
+        .nav-bar a:hover {
+            background-color: #2980b9;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Header Section -->
+    <div class="header">
+        <h1>ALUMNQ</h1>
+    </div>
+
+    <!-- Navigation Bar (this part can be reused across different pages) -->
+    <div class="nav-bar">
+        <a href="{{ url_for('main_routes.select_role') }}">Home</a>
+        <a href="{{ url_for('main_routes.profile') }}">Profile</a>
+        <a href="{{ url_for('main_routes.logout') }}">Logout</a>
+    </div>
+
+    <!-- Main Content Section -->
+    <div class="content">
+        {% block content %}
+        <!-- Page-specific content will be injected here -->
+        {% endblock %}
+    </div>
+
+    <!-- Footer Section -->
+    <div class="footer">
+        <p>&copy; 2024 ALUMNQ. All rights reserved.</p>
+    </div>
+
+</body>
+
+</html>

@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Profile</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #fafafa;
+            margin: 0;
+            padding: 0;
+        }
+
+        .edit-profile-container {
+            max-width: 900px;
+            margin: 50px auto;
+            padding: 30px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .edit-profile-container h2 {
+            text-align: center;
+            color: #2C3E50;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            margin-top: 5px;
+            font-size: 1em;
+        }
+
+        .form-group button {
+            padding: 10px 20px;
+            background-color: #3897f0;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+        }
+
+        .form-group button:hover {
+            background-color: #0078d4;
+        }
+
+        /* Success and Error messages */
+        .message {
+            text-align: center;
+            font-size: 1.2em;
+            padding: 10px;
+            margin: 20px 0;
+        }
+
+        .success {
+            color: #27ae60;
+            background-color: #eafaf1;
+            border: 1px solid #27ae60;
+        }
+
+        .error {
+            color: #e74c3c;
+            background-color: #f9ebeb;
+            border: 1px solid #e74c3c;
+        }
+
+        /* Responsive */
+        @media (max-width: 600px) {
+            .edit-profile-container {
+                width: 90%;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="edit-profile-container">
+        <h2>Edit Profile</h2>
+
+        <!-- Display success or error message -->
+        {% if success %}
+            <div class="message success">{{ success }}</div>
+        {% elif error %}
+            <div class="message error">{{ error }}</div>
+        {% endif %}
+
+        <!-- Profile Edit Form -->
+        <form method="POST">
+            <div class="form-group">
+                <label for="name">Name:</label>
+                <input type="text" id="name" name="name" value="{{ user.name }}" required>
+            </div>
+
+            <div class="form-group">
+                <label for="company">Company:</label>
+                <input type="text" id="company" name="company" value="{{ user.company }}" required>
+            </div>
+
+            <div class="form-group">
+                <label for="job_title">Job Title:</label>
+                <input type="text" id="job_title" name="job_title" value="{{ user.job_title }}" required>
+            </div>
+
+            <div class="form-group">
+                <label for="industry">Industry:</label>
+                <input type="text" id="industry" name="industry" value="{{ user.industry }}" required>
+            </div>
+
+            <div class="form-group">
+                <label for="work_exp">Work Experience:</label>
+                <textarea id="work_exp" name="work_exp" rows="4" required>{{ user.work_exp }}</textarea>
+            </div>
+
+            <div class="form-group">
+                <button type="submit">Save Changes</button>
+            </div>
+        </form>
+    </div>
+
+</body>
+</html>

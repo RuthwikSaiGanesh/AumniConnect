@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome - ALUMNQ</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&family=Open+Sans:wght@300;600&display=swap" rel="stylesheet">
+    <style>
+        /* General Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Open Sans', sans-serif;
+            background: url('welcome_image.jpg') no-repeat center center fixed;
+            background-size: cover;
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            position: relative;
+        }
+
+        .top-left {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            padding: 15px 30px;
+            background-color: #2C3E50;
+            color: white;
+            font-size: 2em;
+            font-family: 'Roboto', sans-serif;
+            border-radius: 5px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-weight: 600;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            padding: 40px;
+            width: 100%;
+            max-width: 450px;
+            text-align: center;
+            margin: 0 20px;
+        }
+
+        .container h1 {
+            font-family: 'Roboto', sans-serif;
+            font-size: 2.5em;
+            color: #2C3E50;
+            margin-bottom: 30px;
+        }
+
+        .container p {
+            font-size: 1.2em;
+            color: #2C3E50;
+            margin-bottom: 20px;
+        }
+
+        .footer {
+            margin-top: 20px;
+            font-size: 0.9em;
+            color: #7f8c8d;
+        }
+
+        .footer a {
+            color: #2980b9;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer a:hover {
+            color: #3498db;
+        }
+
+        /* Optional: add media query for better responsiveness */
+        @media (max-width: 600px) {
+            .top-left {
+                font-size: 1.5em;
+                padding: 10px 20px;
+            }
+
+            .container {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Top Left Web Name Section -->
+    <div class="top-left">ALUMNQ</div>
+
+    <div class="container">
+        <h1>Welcome, Alumni!</h1>
+        <p>Welcome to ALUMNQ, your professional alumni network.</p>
+        <p>We are thrilled to have you as part of our community. Stay connected with your peers, share your experiences, and explore new opportunities in your career and beyond!</p>
+        <div class="footer">
+            Want to go back to the <a href="{{ url_for('main_routes.login') }}">Login</a> page or <a href="{{ url_for('main_routes.profile') }}">view your profile</a>?
+        </div>
+    </div>
+</body>
+
+</html>

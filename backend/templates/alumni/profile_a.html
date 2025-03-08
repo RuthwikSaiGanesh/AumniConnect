@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alumni Profile</title>
+    <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+    <header>
+        <h1>Welcome, {{ user.name }}!</h1>
+        <nav>
+            <ul>
+                <li><a href="/edit_profile">Edit Profile</a></li>
+                <li><a href="/logout">Logout</a></li>
+            </ul>
+        </nav>
+    </header>
+    
+    <main>
+        <section class="profile-details">
+            <h2>Profile Information</h2>
+            <p><strong>Name:</strong> {{ user.name }}</p>
+            <p><strong>Email:</strong> {{ user.email }}</p>
+            <p><strong>Graduation Year:</strong> {{ user.grad_year }}</p>
+            <p><strong>Current Occupation:</strong> {{ user.occupation }}</p>
+        </section>
+        
+        <section class="additional-info">
+            <h2>About Me</h2>
+            <p>{{ user.about }}</p>
+        </section>
+    </main>
+    
+    <footer>
+        <p>&copy; 2025 Alumni Network</p>
+    </footer>
+</body>
+</html>
