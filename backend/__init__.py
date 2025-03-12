@@ -9,7 +9,7 @@ def create_app():
     app = Flask(__name__)
 
     # Load configuration from backend.config
-    app.config.from_object('backend.config')
+    app.config.from_object('backend.config.Config')
 
     # Initialize the database with the app
     init_db(app)
