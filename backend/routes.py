@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, request, redirect, url_for, flash, session
-from backend.models import User
-from backend.database import db
+from models import User
+from database import db
 
 # Define the Blueprint
 main_routes = Blueprint('main_routes', __name__)

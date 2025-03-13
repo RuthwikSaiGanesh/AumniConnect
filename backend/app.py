@@ -5,7 +5,7 @@ def create_app():
     app.config['SECRET_KEY'] = 'your_secret_key'
 
     # Import main_routes inside create_app() to avoid circular import
-    from backend.routes import main_routes
+    from routes import main_routes
     app.register_blueprint(main_routes)
 
     @app.route('/')
