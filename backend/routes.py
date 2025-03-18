@@ -1,6 +1,5 @@
 from flask import Blueprint, render_template, request, redirect, url_for, flash, session
 from models import User
-from database import db
 
 # Define the Blueprint
 main_routes = Blueprint('main_routes', __name__)
@@ -88,7 +87,7 @@ def login():
 
         if user and user.password == password:  # Check if the password is correct
             session['email'] = email
-
+            print("hello")
             # Redirect to correct profile based on user role
             if user.role == 'alumni':
                 return redirect(url_for('main_routes.profile_alumni'))  # Redirect to alumni profile
@@ -113,7 +112,7 @@ def profile_alumni():
         flash('Unauthorized access. Please login.', 'error')
         return redirect(url_for('main_routes.login', role='alumni'))  # Redirect to alumni login if not logged in
 
-    return render_template('profile_alumni.html', user=user)
+    return render_template('alumni/profile_alumni.html', user=user)
 
 # Route for student profile
 @main_routes.route('/profile_student', methods=['GET'])
@@ -142,7 +141,7 @@ def profile_professor():
 # Route to welcome the user after successful account creation
 @main_routes.route('/welcome/<user_name>')
 def welcome(user_name):
-    return render_template('welcome.html', user_name=user_name)
+    return render_template(f'alumni/welcome.html', user_name=user_name)
 
 # Route for logging out
 @main_routes.route('/logout')
