@@ -64,12 +64,6 @@
 <body>
     <div class="profile-container">
         <h1>{{ user.role }} Profile</h1>
-        <img src="{{ user.profile_photo }}" alt="Profile Photo" class="profile-photo">
-        <form action="{{ url_for('upload_photo') }}" method="post" enctype="multipart/form-data">
-            <label for="profile_photo">Upload Profile Photo:</label>
-            <input type="file" id="profile_photo" name="profile_photo" accept="image/*">
-                        <button type="submit" class="profile-btn">Change Photo</button>
-        </form>
         <div class="profile-details">
             <p><strong>Name:</strong> {{ user.name }}</p>
             <p><strong>Email:</strong> {{ user.email }}</p>
@@ -94,8 +88,8 @@
             {% endif %}
         </div>
         <div class="button-container">
-            <a href="{{ url_for('edit_profile') }}" class="profile-btn">Edit Profile</a>
-            <a href="{{ url_for('logout') }}" class="profile-btn logout-btn">Logout</a>
+            <a href="{{ url_for('main_routes.profile_professor') }}" class="profile-btn">Edit Profile</a>
+            <a href="{{ url_for('main_routes.logout') }}" class="profile-btn logout-btn">Logout</a>
         </div>
     </div>
 </body>
