@@ -35,10 +35,8 @@ def create_account():
     role = request.args.get('role')
     print(role, request.method)
     if role == None:
-        print('hi')
         try:
             role = request.form.get('role')
-            print('hi 2')
         except:
             pass
     # Check if role is valid
@@ -74,7 +72,7 @@ def create_account():
         elif role == 'professor':
             department = request.form.get('department')
             # Create new professor user
-            new_user = User(name=name, email=email, password=password, dob=dob)
+            new_user = User(name=name, email=email, password=password, dob=dob, role=role)
             db.session.add(new_user)
             db.session.commit()
             print("success")
@@ -144,16 +142,15 @@ def profile_student():
 # Route for professor profile
 @main_routes.route('/profile_professor', methods=['GET', 'POST'])
 def profile_professor():
-    role = request.args.get('role', 'professor').lower() 
     print("hello")
     user_email = session.get('email')
     user = User.query.filter_by(email=user_email).first()
 
-    if not user or role != 'professor':
+    if not user or user.role != 'professor':
         flash('Unauthorized access. Please login.', 'error')
         return redirect(url_for('main_routes.login', role='professor'))  # Redirect to professor login if not logged in
 
-    return render_template(f'{role}/profile_p.html', user=user)
+    return render_template(f'{user.role}/profile_p.html', user=user)
 
 # Route to welcome the user after successful account creation
 @main_routes.route('/welcome/<user_name>')
