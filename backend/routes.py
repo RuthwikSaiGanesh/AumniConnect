@@ -56,7 +56,7 @@ def create_account():
         if role == 'alumni':
             grad_year = request.form.get('grad_year')
             # Create new alumni user
-            new_user = User(name=name, email=email, password=password, role='alumni', grad_year=grad_year)
+            new_user = User(name=name, email=email, password=password, role=role, grad_year=grad_year)
             db.session.add(new_user)
             db.session.commit()
             return redirect(url_for('main_routes.welcome', user_name=name))
@@ -64,7 +64,7 @@ def create_account():
         elif role == 'student':
             course = request.form.get('course')
             # Create new student user
-            new_user = User(name=name, email=email, password=password, role='student', course=course)
+            new_user = User(name=name, email=email, password=password, role=role, dob=dob)
             db.session.add(new_user)
             db.session.commit()
             return redirect(url_for('main_routes.welcome', user_name=name))
@@ -137,7 +137,7 @@ def profile_student():
         flash('Unauthorized access. Please login.', 'error')
         return redirect(url_for('main_routes.login', role='student'))  # Redirect to student login if not logged in
 
-    return render_template('profile_student.html', user=user)
+    return render_template(f'{user.role}/profile.html', user=user)
 
 # Route for professor profile
 @main_routes.route('/profile_professor', methods=['GET', 'POST'])
