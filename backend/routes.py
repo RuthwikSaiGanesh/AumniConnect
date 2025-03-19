@@ -42,9 +42,6 @@ def create_account():
     # Check if role is valid
     if not role or role not in ['alumni', 'student', 'professor']:
         return render_template('select_role.html', error="Please select a valid role to create an account.")
-    print(role, request.method)
-
-    
 
     if request.method == 'POST':
         name = request.form.get('name')
@@ -56,7 +53,7 @@ def create_account():
         if role == 'alumni':
             grad_year = request.form.get('grad_year')
             # Create new alumni user
-            new_user = User(name=name, email=email, password=password, role=role, grad_year=grad_year)
+            new_user = User(name=name, email=email, password=password, role=role, dob=dob)
             db.session.add(new_user)
             db.session.commit()
             return redirect(url_for('main_routes.welcome', user_name=name))
@@ -140,9 +137,8 @@ def profile_student():
     return render_template(f'{user.role}/profile.html', user=user)
 
 # Route for professor profile
-@main_routes.route('/profile_professor', methods=['GET', 'POST'])
+@main_routes.route('/profile_professor', methods=['GET'])
 def profile_professor():
-    print("hello")
     user_email = session.get('email')
     user = User.query.filter_by(email=user_email).first()
 
