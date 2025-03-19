@@ -1,5 +1,7 @@
 from flask import Flask, render_template, session, request, redirect, url_for
 from config import Config
+from models import User
+
 def create_app():
     app = Flask(__name__)
     app.config['SECRET_KEY'] = 'your_secret_key'
