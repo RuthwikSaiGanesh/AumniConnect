@@ -1,16 +1,18 @@
 from flask import Flask, render_template, session, request, redirect, url_for
-from config import Config
-from models import User
+from backend.config import Config
+from backend.models import User
+from backend.database import db, init_db
+
 
 def create_app():
     app = Flask(__name__)
     app.config['SECRET_KEY'] = 'your_secret_key'
     from flask_sqlalchemy import SQLAlchemy
-    from database import db, init_db
-    app.config.from_object(Config)
+    from backend.database import db, init_db
+    app.config.from_object('backend.config.DevelopmentConfig')
     init_db(app)
     # Import main_routes inside create_app() to avoid circular import
-    from routes import main_routes
+    from backend.routes import main_routes
 
     app.register_blueprint(main_routes)
 
@@ -38,5 +40,5 @@ def create_app():
 
 if __name__ == '__main__':
     app = create_app()
-    app.config.from_object('config.DevelopmentConfig')
+    app.config.from_object('backend.config.DevelopmentConfig')
     app.run(port=5000, debug=True)
