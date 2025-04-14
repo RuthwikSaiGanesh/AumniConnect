@@ -85,7 +85,7 @@ def create_account():
 # Route for logging in
 @main_routes.route('/login', methods=['GET', 'POST'])
 def login():
-    role = request.args.get('role', 'alumni').lower()
+    role = request.args.get('role', 'alumni').lower()  # Default to alumni if no role is provided
     if role not in ['alumni', 'student', 'professor']:
         flash('Invalid role specified.', 'error')
         return redirect(url_for('main_routes.select_role'))
@@ -100,14 +100,14 @@ def login():
         if user and user.check_password(password):  # Use the check_password method
             session['email'] = email
             if role == 'alumni':
-                return redirect(url_for('main_routes.profile_alumni'))
+                return render_template('alumni/welcome.html', user=user)
             elif role == 'student':
-                return redirect(url_for('main_routes.profile_student'))
+                return render_template('student/welcome.html', user=user)
             elif role == 'professor':
-                return redirect(url_for('main_routes.profile_professor'))
+                return render_template('professor/welcome.html', user=user)
         else:
-            flash('No account found with this email or incorrect password.', 'error')
-            return render_template(template_path)
+            flash('Invalid email or password.', 'error')
+            return render_template(template_path, error="Invalid email or password.")
 
     return render_template(template_path)
 
