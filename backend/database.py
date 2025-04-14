@@ -1,7 +1,11 @@
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy import create_engine
 
-# Create an SQLAlchemy object to manage the database
+# SQLAlchemy instance
 db = SQLAlchemy()
+
+# Define the engine (replace 'sqlite:///app.db' with your database URL)
+engine = create_engine('sqlite:///app.db')  # Example for SQLite
 
 def init_db(app):
     """
@@ -10,6 +14,6 @@ def init_db(app):
     """
     db.init_app(app)  # Bind the database instance to the Flask app
 
-    # Create tables only if they don't exist already (app context)
+    # Create tables within the app context
     with app.app_context():
-        db.create_all()  # Create tables based on the models (ideal for dev, but use migrations in prod)
+        db.create_all()  # Create tables based on the models

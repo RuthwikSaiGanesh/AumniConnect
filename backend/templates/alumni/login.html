@@ -155,9 +155,9 @@
             <div class="error-message">{{ error }}</div>
             {% endif %}
 
-            <form method="POST">
+            <form method="POST" action="{{ url_for('main_routes.login', role='alumni') }}">
                 <label for="username">Username or Email</label>
-                <input type="text" id="username" name="username" value="{{ request.form.get('username') }}" required>
+                <input type="text" id="username" name="username" value="{{ request.form.get('username', '') }}" required>
 
                 <label for="password">Password</label>
                 <input type="password" id="password" name="password" required>
