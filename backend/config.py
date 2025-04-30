@@ -16,7 +16,7 @@ class DevelopmentConfig(Config):
     Configuration for development environment.
     """
     DEBUG = True
-    SQLALCHEMY_DATABASE_URI = f"sqlite:///{os.path.join(Config.BASE_DIR, 'alumnq_dev.db')}"  # SQLite for development
+    SQLALCHEMY_DATABASE_URI = f"sqlite:///{os.path.join(Config.BASE_DIR, 'alumni_dev.db')}"  # SQLite for development
 
 
 class ProductionConfig(Config):
