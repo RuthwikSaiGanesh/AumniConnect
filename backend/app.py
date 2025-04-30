@@ -1,11 +1,11 @@
 from flask import Flask, render_template, session, request, redirect, url_for
 from backend.config import Config
 from backend.database import db, init_db
-from backend.models import User
+from backend.models import User  # Assuming User is defined in backend.models
 from flask_migrate import Migrate
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.exc import SQLAlchemyError
-
+from werkzeug.security import generate_password_hash, check_password_hash
 
 def create_app():
     """
@@ -67,16 +67,23 @@ def add_user():
     role = input("Enter user role (student/professor/alumni/etc): ").strip()
 
     if not name or not email or not password or not role:
-        print("❌ Name, email, password, and role cannot be empty.")
+        print("❌ All fields are required.")
         return
+
+    hashed_password = generate_password_hash(password)
+    print(f"🔒 Hashed password: {hashed_password}")  # Debugging log
 
     try:
         # Create a session within the application context
         with create_app().app_context():
+            print("✅ App context created.")  # Debugging log
             Session = sessionmaker(bind=db.engine)
             with Session() as session_db:
+                print("✅ Database session created.")  # Debugging log
+
                 # Create a new user instance
-                user = User(name=name, email=email, password=password, role=role)
+                user = User(name=name, email=email, password=hashed_password, role=role)
+                print(f"📝 Adding user: {user}")  # Debugging log
                 session_db.add(user)
                 session_db.commit()
                 print(f"✅ User '{name}' added successfully!")
@@ -145,7 +152,7 @@ def update_user():
         with create_app().app_context():
             Session = sessionmaker(bind=db.engine)
             with Session() as session_db:
-                user = session_db.get(User, user_id)
+                user = session_db.query(User).filter_by(id=user_id).first()
                 if user:
                     old_role = user.role
                     user.role = new_role
@@ -172,7 +179,7 @@ def delete_user():
         with create_app().app_context():
             Session = sessionmaker(bind=db.engine)
             with Session() as session_db:
-                user = session_db.get(User, user_id)
+                user = session_db.query(User).filter_by(id=user_id).first()
                 if user:
                     confirm = input(f"⚠ Are you sure you want to delete '{user.name}'? (y/n): ").lower()
                     if confirm == 'y':
