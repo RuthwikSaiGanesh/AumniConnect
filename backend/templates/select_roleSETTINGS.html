@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Select Role - Theme Switcher</title>
+    <style>
+        body {
+            background-color: #fff;
+            color: #222;
+            transition: background 0.3s, color 0.3s;
+        }
+        body.dark-mode {
+            background-color: #181818;
+            color: #eee;
+        }
+        .theme-switcher {
+            margin: 20px;
+            padding: 8px;
+            font-size: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <label for="theme-select">Theme:</label>
+    <select id="theme-select" class="theme-switcher">
+        <option value="light">Light Mode</option>
+        <option value="dark">Dark Mode</option>
+    </select>
+
+    <script>
+        const themeSelect = document.getElementById('theme-select');
+        const body = document.body;
+
+        // Load saved theme
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme === 'dark') {
+            body.classList.add('dark-mode');
+            themeSelect.value = 'dark';
+        }
+
+        themeSelect.addEventListener('change', function() {
+            if (this.value === 'dark') {
+                body.classList.add('dark-mode');
+                localStorage.setItem('theme', 'dark');
+            } else {
+                body.classList.remove('dark-mode');
+                localStorage.setItem('theme', 'light');
+            }
+        });
+    </script>
+</body>
+</html>

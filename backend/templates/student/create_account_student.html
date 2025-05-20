@@ -2,91 +2,37 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <title>Welcome Student</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Create Student Account</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-</head>
-<body class="bg-gray-100 flex items-center justify-center min-h-screen">
-    <form action="/create_account" method="POST">
-        <input type="hidden" name="role" value="student">
-        <div class="bg-white p-8 rounded-2xl shadow-lg w-full max-w-4xl">
-            <h2 class="text-2xl font-bold mb-6 text-gray-800 text-center">Create Student Account</h2>
-            <div class="grid grid-cols-2 gap-6">
-                <!-- Left Column -->
-                <div>
-                    <div class="mb-4">
-                        <label class="block text-gray-700 text-sm font-bold mb-2" for="name">Name</label>
-                        <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" type="text" name="name" pattern="^[A-Za-z ]+$" title="Only alphabets and spaces allowed" required>
-                    </div>
-                    <div class="mb-4">
-                        <label class="block text-gray-700 text-sm font-bold mb-2" for="email">Email</label>
-                        <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" type="email" name="email" pattern="^[a-zA-Z0-9]+@gmail\.com$" title="Enter a valid email address" required>
-                    </div>
-                    <div class="mb-4">
-                        <label class="block text-gray-700 text-sm font-bold mb-2" for="dob">Date of Birth</label>
-                        <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" type="date" name="dob" max="2008-01-01" title="You must be at least 17 years old" required>
-                    </div>
-                    <div class="mb-4">
-                        <label class="block text-gray-700 text-sm font-bold mb-2" for="phone">Phone Number</label>
-                        <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" type="tel" name="phone" pattern="^[0-9]{10}$" title="Enter a valid 10-digit phone number" required>
-                    </div>
-                </div>
-                <!-- Right Column -->
-                <div>
-                    <div class="mb-4">
-                        <label class="block text-gray-700 text-sm font-bold mb-2" for="usn">USN</label>
-                        <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" type="text" name="usn" pattern="^[A-Za-z0-9]+$" title="Enter a valid USN" required>
-                    </div>
-                    <div class="mb-4">
-                        <label class="block text-gray-700 text-sm font-bold mb-2" for="department">Department</label>
-                        <select class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" name="department" required>
-                            <option value="">Select Department</option>
-                            <option value="CSE">Computer Science and Engineering (CSE)</option>
-                            <option value="IT">Information Technology (IT)</option>
-                            <option value="ECE">Electronics and Communication Engineering (ECE)</option>
-                            <option value="EEE">Electrical and Electronics Engineering (EEE)</option>
-                            <option value="ME">Mechanical Engineering (ME)</option>
-                            <option value="CE">Civil Engineering (CE)</option>
-                            <option value="AI_ML">Artificial Intelligence and Machine Learning (AI & ML)</option>
-                            <option value="AI_DS">Artificial Intelligence and Data Science (AI & DS)</option>
-                        </select>
-                    </div>
-                    <div class="mb-4">
-                        <label class="block text-gray-700 text-sm font-bold mb-2" for="year">Year of Study</label>
-                        <select class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" name="year" required>
-                            <option value="">Select Year</option>
-                            <option value="1">1st Year</option>
-                            <option value="2">2nd Year</option>
-                            <option value="3">3rd Year</option>
-                            <option value="4">4th Year</option>
-                        </select>
-                    </div>
-                    <div class="mb-4">
-                        <label class="block text-gray-700 text-sm font-bold mb-2" for="password">Create Password</label>
-                        <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" type="password" name="password" id="password" pattern="(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])[A-Za-z0-9!@#$%^&*]{10,}" title="Password must be at least 10 characters long, include 1 uppercase, 1 number, and 1 special character" required>
-                        <input type="checkbox" onclick="togglePassword('password')" class="mt-2"> Show Password
-                    </div>
-                    <div class="mb-4">
-                        <label class="block text-gray-700 text-sm font-bold mb-2" for="confirm_password">Confirm Password</label>
-                        <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" type="password" name="confirm_password" id="confirm_password" oninput="this.setCustomValidity(this.value !== document.querySelector('[name=\'password\']').value ? 'Passwords do not match' : '')" required>
-                        <input type="checkbox" onclick="togglePassword('confirm_password')" class="mt-2"> Show Password
-                    </div>
-                </div>
-            </div>
-            <div class="flex justify-center mt-6">
-                <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit">Create Account</button>
-            </div>
-        </div>
-    </form>
-    <script>
-        function togglePassword(id) {
-            var input = document.getElementById(id);
-            if (input.type === 'password') {
-                input.type = 'text';
-            } else {
-                input.type = 'password';
-            }
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f6fa;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
         }
-    </script>
+        .welcome-box {
+            background: #fff;
+            padding: 40px 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+            text-align: center;
+        }
+        .welcome-box h1 {
+            color: #1e40af;
+            margin-bottom: 10px;
+        }
+        .welcome-box p {
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <div class="welcome-box">
+        <h1>Welcome, {{ name }}!</h1>
+        <p>You have successfully logged in to the Student Portal.</p>
+    </div>
 </body>
 </html>

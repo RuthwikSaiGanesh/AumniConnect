@@ -1,23 +1,100 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Welcome Professor</title>
-    <link rel="stylesheet" href="styles.css">
+    <meta charset="UTF-8" />
+    <title>Professor Profile</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <style>
+        /* Reset some defaults */
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f0f4ff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+            color: #333;
+        }
+
+        .profile-box {
+            background: white;
+            padding: 40px 30px;
+            border-radius: 15px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 420px;
+            text-align: center;
+            transition: transform 0.2s ease;
+        }
+
+        .profile-box:hover {
+            transform: translateY(-5px);
+        }
+
+        .profile-box h1 {
+            color: #2563eb; /* nicer blue */
+            font-weight: 700;
+            margin-bottom: 15px;
+            font-size: 1.8rem;
+        }
+
+        .profile-box p {
+            font-size: 1rem;
+            margin-bottom: 30px;
+            color: #555;
+        }
+
+        ul.profile-details {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            text-align: left;
+        }
+
+        ul.profile-details li {
+            margin-bottom: 14px;
+            font-size: 1rem;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 8px;
+        }
+
+        ul.profile-details li strong {
+            color: #111;
+            width: 120px;
+            display: inline-block;
+        }
+
+        /* Responsive */
+        @media (max-width: 480px) {
+            .profile-box {
+                padding: 30px 20px;
+            }
+            .profile-box h1 {
+                font-size: 1.5rem;
+            }
+            ul.profile-details li {
+                font-size: 0.95rem;
+            }
+        }
+    </style>
 </head>
 <body>
-    <header>
-        <h1>Welcome to the Alumni Association</h1>
-    </header>
-    <main>
-        <section>
-            <h2>Professor's Welcome Page</h2>
-            <p>We are delighted to have you here. Explore the resources and connect with alumni.</p>
-        </section>
-    </main>
-    <footer>
-        <p>&copy; 2023 Alumni Association. All rights reserved.</p>
-    </footer>
+    <div class="profile-box">
+        <h1>Welcome, Professor {{ user.name | default('User') }}!</h1>
+        <p>Here are your profile details:</p>
+        <ul class="profile-details">
+            <li><strong>Email:</strong> {{ user.email | default('N/A') }}</li>
+            <li><strong>Department:</strong> {{ professor.department | default('N/A') }}</li>
+            <li><strong>Designation:</strong> {{ professor.designation | default('N/A') }}</li>
+            <li><strong>Phone Number:</strong> {{ professor.phone_number | default('N/A') }}</li>
+            <li><strong>Office:</strong> {{ professor.office | default('N/A') }}</li>
+        </ul>
+    </div>
 </body>
 </html>

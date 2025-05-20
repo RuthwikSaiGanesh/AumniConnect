@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Select Role | AlumniConnect</title>
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
 </head>
 <body class="bg-gray-100 font-sans">
 
@@ -14,11 +14,17 @@
             <h1 class="text-2xl font-bold">AlumniConnect</h1>
             <nav>
                 <ul class="flex space-x-4 text-sm">
-                    <li><a href="#" class="hover:text-gray-200">Home</a></li>
-                    <li><a href="#" class="hover:text-gray-200">Alumni</a></li>
-                    <li><a href="#" class="hover:text-gray-200">Events</a></li>
-                    <li><a href="#" class="hover:text-gray-200">Mentorship</a></li>
-                    <li><a href="#" class="hover:text-gray-200">Donate</a></li>
+                    <li>
+                        <a href="/settings" class="bg-blue-500 hover:bg-blue-700 text-white px-4 py-2 rounded transition">
+                            Settings
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ url_for('main_routes.admin_login') }}"
+                            class="bg-gray-200 hover:bg-gray-300 text-blue-700 px-4 py-2 rounded transition">
+                            Admin
+                        </a>
+                    </li>
                 </ul>
             </nav>
         </div>
@@ -26,42 +32,71 @@
 
     <!-- Hero Section -->
     <section class="text-center py-16 bg-white shadow-md">
-        <h2 class="text-3xl font-bold text-gray-800">Welcome to <span class="text-blue-600">AlumniConnect</span></h2>
+        <h2 class="text-3xl font-bold text-gray-800">
+            Welcome to <span class="text-blue-600">AlumniConnect</span>
+        </h2>
         <p class="mt-2 text-gray-600">Choose your role to continue</p>
     </section>
 
     <!-- Role Selection Cards -->
-<section class="container mx-auto px-4 py-12 grid gap-8 sm:grid-cols-1 md:grid-cols-3 text-center">
-    <!-- Alumni -->
-    <form action="/select_role" method="POST" class="bg-white shadow-lg rounded-lg p-6 hover:shadow-xl transition duration-300 transform hover:-translate-y-1">
-        <input type="hidden" name="role" value="alumni">
-        <button type="submit" class="w-full">
-            <img src="https://img.icons8.com/ios-filled/100/000000/graduation-cap.png" class="mx-auto mb-4 w-16 h-16" alt="Alumni">
-            <h3 class="text-xl font-semibold text-blue-600">Alumni</h3>
-            <p class="text-sm text-gray-500 mt-2">Connect with your peers, share stories and stay in touch.</p>
-        </button>
-    </form>
+        <section class="container mx-auto px-4 py-12 grid gap-8 sm:grid-cols-1 md:grid-cols-3 text-center auto-rows-max">        <!-- Alumni -->
+        <form action="/select_role" method="POST"
+            class="bg-white shadow-lg rounded-lg p-6 hover:shadow-xl transition duration-300 transform hover:-translate-y-1">
+            <input type="hidden" name="role" value="alumni" />
+            <button type="submit" class="w-full">
+                <img src="https://img.icons8.com/ios-filled/100/000000/graduation-cap.png"
+                    class="mx-auto mb-4 w-16 h-16" alt="Alumni" />
+                <h3 class="text-xl font-semibold text-blue-600">Alumni</h3>
+                <p class="text-sm text-gray-500 mt-2">
+                    Connect with your peers, share stories and stay in touch.
+                </p>
+            </button>
+        </form>
 
-    <!-- Student -->
-    <form action="/select_role" method="POST" class="bg-white shadow-lg rounded-lg p-6 hover:shadow-xl transition duration-300 transform hover:-translate-y-1">
-        <input type="hidden" name="role" value="student">
-        <button type="submit" class="w-full">
-            <img src="https://img.icons8.com/ios-filled/100/000000/student-male.png" class="mx-auto mb-4 w-16 h-16" alt="Student">
-            <h3 class="text-xl font-semibold text-blue-600">Student</h3>
-            <p class="text-sm text-gray-500 mt-2">Explore alumni paths and unlock career guidance.</p>
-        </button>
-    </form>
+        <!-- Student -->
+        <form action="/select_role" method="POST"
+            class="bg-white shadow-lg rounded-lg p-6 hover:shadow-xl transition duration-300 transform hover:-translate-y-1">
+            <input type="hidden" name="role" value="student" />
+            <button type="submit" class="w-full">
+                <img src="https://img.icons8.com/ios-filled/100/000000/student-male.png"
+                    class="mx-auto mb-4 w-16 h-16" alt="Student" />
+                <h3 class="text-xl font-semibold text-blue-600">Student</h3>
+                <p class="text-sm text-gray-500 mt-2">
+                    Explore alumni paths and unlock career guidance.
+                </p>
+            </button>
+        </form>
 
-    <!-- Professor -->
-    <form action="/select_role" method="POST" class="bg-white shadow-lg rounded-lg p-6 hover:shadow-xl transition duration-300 transform hover:-translate-y-1">
-        <input type="hidden" name="role" value="professor">
-        <button type="submit" class="w-full">
-            <img src="https://img.icons8.com/ios-filled/100/000000/classroom.png" class="mx-auto mb-4 w-16 h-16" alt="Professor">
-            <h3 class="text-xl font-semibold text-blue-600">Professor</h3>
-            <p class="text-sm text-gray-500 mt-2">Support students and maintain academic relationships.</p>
-        </button>
-    </form>
-</section>
+        <!-- Professor -->
+        <form action="/select_role" method="POST"
+            class="bg-white shadow-lg rounded-lg p-6 hover:shadow-xl transition duration-300 transform hover:-translate-y-1">
+            <input type="hidden" name="role" value="professor" />
+            <button type="submit" class="w-full">
+                <img src="https://img.icons8.com/ios-filled/100/000000/classroom.png"
+                    class="mx-auto mb-4 w-16 h-16" alt="Professor" />
+                <h3 class="text-xl font-semibold text-blue-600">Professor</h3>
+                <p class="text-sm text-gray-500 mt-2">
+                    Support students and maintain academic relationships.
+                </p>
+            </button>
+        </form>
+
+        <!-- Admin -->
+        <form action="/select_role" method="POST"
+            class="bg-white shadow-lg rounded-lg p-6 hover:shadow-xl transition duration-300 transform hover:-translate-y-1 mx-auto w-64">
+            <input type="hidden" name="role" value="admin" />
+            <button type="submit" class="w-full">
+                <img src="https://img.icons8.com/ios-filled/100/000000/administrator-male.png"
+                    class="mx-auto mb-4 w-16 h-16" alt="Admin" />
+                <h3 class="text-xl font-semibold text-blue-600">Admin</h3>
+                <p class="text-sm text-gray-500 mt-2">
+                    Manage the platform and user data with admin privileges.
+                </p>
+            </button>
+        </form>
+
+
+    </section>
 
     <!-- Footer -->
     <footer class="text-center text-gray-500 text-sm py-6 bg-white border-t">

@@ -3,71 +3,82 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ user.role }} Profile</title>
+    <title>{{ user.role.capitalize() }} Profile</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
-            background-color: #f4f4f9;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(to right, #eef2f7, #f9fbfd);
+            color: #1e293b;
         }
+
         .profile-container {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 20px;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            background-color: white;
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 30px 40px;
+            border-radius: 12px;
+            background-color: #ffffff;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.05);
+            text-align: left;
+        }
+
+        .profile-container h1 {
+            color: #1e3a8a;
+            font-size: 2rem;
+            margin-bottom: 20px;
             text-align: center;
         }
-        .profile-container h1 {
-            color: #2c3e50;
-        }
-        .profile-photo {
-            width: 150px;
-            height: 150px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 3px solid #2980b9;
-            margin-bottom: 15px;
-        }
+
         .profile-details p {
-            font-size: 18px;
-            color: #34495e;
-            line-height: 1.6;
+            font-size: 1.1rem;
+            color: #334155;
+            margin-bottom: 10px;
         }
+
+        .profile-details strong {
+            color: #0f172a;
+        }
+
         .button-container {
-            margin-top: 20px;
+            margin-top: 30px;
+            text-align: center;
         }
+
         .profile-btn {
             padding: 12px 20px;
-            background-color: #007bff;
-            color: white;
+            background-color: #1d4ed8;
+            color: #ffffff;
             border: none;
-            border-radius: 5px;
+            border-radius: 6px;
             text-decoration: none;
-            font-size: 1em;
+            font-size: 1rem;
             cursor: pointer;
+            margin: 0 10px;
             transition: background-color 0.3s ease;
-            margin: 10px;
+            display: inline-block;
         }
+
         .profile-btn:hover {
-            background-color: #0056b3;
+            background-color: #1e40af;
         }
+
         .logout-btn {
-            background-color: #e74c3c;
+            background-color: #dc2626;
         }
+
         .logout-btn:hover {
-            background-color: #c0392b;
+            background-color: #b91c1c;
         }
     </style>
 </head>
 <body>
     <div class="profile-container">
-        <h1>{{ user.role }} Profile</h1>
+        <h1>{{ user.role.capitalize() }} Profile</h1>
         <div class="profile-details">
             <p><strong>Name:</strong> {{ user.name }}</p>
             <p><strong>Email:</strong> {{ user.email }}</p>
-            
+
             {% if user.role == 'alumni' %}
                 <p><strong>Graduation Year:</strong> {{ user.grad_year }}</p>
                 <p><strong>Degree:</strong> {{ user.degree }}</p>
@@ -87,8 +98,9 @@
                 <p><strong>Experience:</strong> {{ user.experience }} years</p>
             {% endif %}
         </div>
+
         <div class="button-container">
-            <a href="{{ url_for('main_routes.profile_professor') }}" class="profile-btn">Edit Profile</a>
+            <a href="{{ url_for('main_routes.profile_p') }}" class="profile-btn">Edit Profile</a>
             <a href="{{ url_for('main_routes.logout') }}" class="profile-btn logout-btn">Logout</a>
         </div>
     </div>

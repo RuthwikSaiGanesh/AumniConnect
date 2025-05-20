@@ -1,88 +1,120 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Create Alumni Account</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Create Alumni Account</title>
+  <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-gradient-to-br from-blue-50 to-blue-200 flex items-center justify-center min-h-screen">
-    <form action="/create_account" method="POST" onsubmit="return validatePassword()">
-        <input type="hidden" name="role" value="alumni">
-        <div class="bg-white p-10 rounded-3xl shadow-2xl w-full max-w-4xl">
-            <h2 class="text-3xl font-extrabold mb-6 text-gray-800 text-center">Create Alumni Account</h2>
-            <div class="grid grid-cols-2 gap-8">
-                <!-- Left Column -->
-                <div>
-                    <div class="mb-5">
-                        <label class="block text-gray-700 font-semibold mb-2" for="name">Name</label>
-                        <input class="border rounded-lg w-full py-3 px-4 text-gray-700 focus:ring-2 focus:ring-blue-400" type="text" name="name" pattern="^[A-Za-z ]+$" required>
-                    </div>
-                    <div class="mb-5">
-                        <label class="block text-gray-700 font-semibold mb-2" for="email">Email</label>
-                        <input class="border rounded-lg w-full py-3 px-4 text-gray-700 focus:ring-2 focus:ring-blue-400" type="email" name="email" pattern="^[a-zA-Z0-9]+@gmail\.com$" required>
-                    </div>
-                    <div class="mb-5">
-                        <label class="block text-gray-700 font-semibold mb-2" for="dob">Date of Birth</label>
-                        <input class="border rounded-lg w-full py-3 px-4 text-gray-700 focus:ring-2 focus:ring-blue-400" type="date" name="dob" max="2006-01-01" required>
-                    </div>
-                    <div class="mb-5">
-                        <label class="block text-gray-700 font-semibold mb-2" for="phone">Phone Number</label>
-                        <input class="border rounded-lg w-full py-3 px-4 text-gray-700 focus:ring-2 focus:ring-blue-400" type="tel" name="phone" pattern="^[0-9]{10}$" required>
-                    </div>
-                    <div class="mb-5">
-                        <label class="block text-gray-700 font-semibold mb-2" for="occupation">Current Occupation</label>
-                        <input class="border rounded-lg w-full py-3 px-4 text-gray-700 focus:ring-2 focus:ring-blue-400" type="text" name="occupation" required>
-                    </div>
-                </div>
-                <!-- Right Column -->
-                <div>
-                    <div class="mb-5">
-                        <label class="block text-gray-700 font-semibold mb-2" for="grad_year">Year of Graduation</label>
-                        <input class="border rounded-lg w-full py-3 px-4 text-gray-700 focus:ring-2 focus:ring-blue-400" type="number" name="grad_year" min="1950" max="2025" required>
-                    </div>
-                    <div class="mb-5">
-                        <label class="block text-gray-700 font-semibold mb-2" for="password">Create Password</label>
-                        <input class="border rounded-lg w-full py-3 px-4 text-gray-700 focus:ring-2 focus:ring-blue-400" type="password" name="password" id="password" required>
-                        <input type="checkbox" onclick="togglePassword('password')" class="mt-2"> Show Password
-                    </div>
-                    <div class="mb-5">
-                        <label class="block text-gray-700 font-semibold mb-2" for="confirm_password">Confirm Password</label>
-                        <input class="border rounded-lg w-full py-3 px-4 text-gray-700 focus:ring-2 focus:ring-blue-400" type="password" name="confirm_password" id="confirm_password" required>
-                        <input type="checkbox" onclick="togglePassword('confirm_password')" class="mt-2"> Show Password
-                    </div>
-                    <div class="mb-5">
-                        <label class="block text-gray-700 font-semibold mb-2" for="department">Department Graduated From</label>
-                        <select class="border rounded-lg w-full py-3 px-4 text-gray-700 focus:ring-2 focus:ring-blue-400" name="department" required>
-                            <option value="">Select Department</option>
-                            <option value="CSE">Computer Science and Engineering</option>
-                            <option value="IT">Information Technology</option>
-                            <option value="ECE">Electronics and Communication</option>
-                            <option value="EEE">Electrical and Electronics</option>
-                        </select>
-                    </div>
-                </div>
-            </div>
-            <div class="flex justify-center mt-8">
-                <button class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg shadow-lg focus:ring-2 focus:ring-blue-400" type="submit">Create Account</button>
-            </div>
+  <form action="/create_account" method="POST" onsubmit="return validatePassword()">
+    <input type="hidden" name="role" value="alumni" />
+    <div class="bg-white p-10 rounded-3xl shadow-2xl w-full max-w-4xl">
+      <h2 class="text-3xl font-extrabold mb-6 text-gray-800 text-center">Create Alumni Account</h2>
+      <div class="grid grid-cols-2 gap-8">
+        <!-- Left Column -->
+        <div>
+          <div class="mb-5">
+            <label class="block text-gray-700 font-semibold mb-2" for="name">Name</label>
+            <input class="border rounded-lg w-full py-3 px-4" type="text" name="name" required pattern="^[A-Za-z ]+$">
+          </div>
+          <div class="mb-5">
+            <label class="block text-gray-700 font-semibold mb-2" for="email">Email</label>
+            <input class="border rounded-lg w-full py-3 px-4" type="email" name="email" required pattern="^[a-zA-Z0-9]+@gmail\.com$">
+          </div>
+          <div class="mb-5">
+            <label class="block text-gray-700 font-semibold mb-2" for="dob">Date of Birth</label>
+            <input class="border rounded-lg w-full py-3 px-4" type="date" name="dob" required>
+          </div>
+          <div class="mb-5">
+            <label class="block text-gray-700 font-semibold mb-2" for="company">Company</label>
+            <input class="border rounded-lg w-full py-3 px-4" type="text" name="company">
+          </div>
+          <div class="mb-5">
+            <label class="block text-gray-700 font-semibold mb-2" for="degree">Degree</label>
+            <select class="border rounded-lg w-full py-3 px-4" name="degree" required>
+              <option value="">Select Degree</option>
+              <option value="B.E.">B.E.</option>
+              <option value="B.Tech">B.Tech</option>
+              <option value="M.Tech">M.Tech</option>
+              <option value="MBA">MBA</option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
+          <div class="mb-5">
+            <label class="block text-gray-700 font-semibold mb-2" for="specialization">Specialization</label>
+            <select class="border rounded-lg w-full py-3 px-4" name="specialization">
+              <option value="">Select Specialization</option>
+              <option value="Computer Science">Computer Science</option>
+              <option value="Electronics">Electronics</option>
+              <option value="Mechanical">Mechanical</option>
+              <option value="Civil">Civil</option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
         </div>
-    </form>
-<script>
-function togglePassword(id) {
-  var input = document.getElementById(id);
-  input.type = input.type === 'password' ? 'text' : 'password';
-}
 
-function validatePassword() {
-  var password = document.getElementById("password").value;
-  var confirmPassword = document.getElementById("confirm_password").value;
-  if (password !== confirmPassword) {
-    alert("Passwords do not match!");
-    return false; // Prevent form submission if passwords don't match
-  }
-  return true; // Proceed with form submission if passwords match
-}
-</script>
+        <!-- Right Column -->
+        <div>
+          <div class="mb-5">
+            <label class="block text-gray-700 font-semibold mb-2" for="graduation_year">Graduation Year</label>
+            <input class="border rounded-lg w-full py-3 px-4" type="number" name="graduation_year" min="1950" max="2025" required>
+          </div>
+          <div class="mb-5">
+            <label class="block text-gray-700 font-semibold mb-2" for="job_title">Job Title</label>
+            <input class="border rounded-lg w-full py-3 px-4" type="text" name="job_title">
+          </div>
+          <div class="mb-5">
+            <label class="block text-gray-700 font-semibold mb-2" for="industry">Industry</label>
+            <select class="border rounded-lg w-full py-3 px-4" name="industry">
+              <option value="">Select Industry</option>
+              <option value="Software">Software</option>
+              <option value="Education">Education</option>
+              <option value="Finance">Finance</option>
+              <option value="Manufacturing">Manufacturing</option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
+          <div class="mb-5">
+            <label class="block text-gray-700 font-semibold mb-2" for="work_exp">Work Experience (years)</label>
+            <input class="border rounded-lg w-full py-3 px-4" type="number" name="work_exp" min="0" max="60">
+          </div>
+          <div class="mb-5">
+            <label class="block text-gray-700 font-semibold mb-2" for="password">Create Password</label>
+            <input class="border rounded-lg w-full py-3 px-4" type="password" name="password" id="password" required>
+            <input type="checkbox" onclick="togglePassword('password')" class="mt-2"> Show Password
+          </div>
+          <div class="mb-5">
+            <label class="block text-gray-700 font-semibold mb-2" for="confirm_password">Confirm Password</label>
+            <input class="border rounded-lg w-full py-3 px-4" type="password" name="confirm_password" id="confirm_password" required>
+            <input type="checkbox" onclick="togglePassword('confirm_password')" class="mt-2"> Show Password
+          </div>
+        </div>
+      </div>
+
+      <div class="flex justify-center mt-8">
+        <button class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg shadow-lg" type="submit">
+          Create Account
+        </button>
+      </div>
+    </div>
+  </form>
+
+  <script>
+    function togglePassword(id) {
+      var input = document.getElementById(id);
+      input.type = input.type === 'password' ? 'text' : 'password';
+    }
+
+    function validatePassword() {
+      var password = document.getElementById("password").value;
+      var confirmPassword = document.getElementById("confirm_password").value;
+      if (password !== confirmPassword) {
+        alert("Passwords do not match!");
+        return false;
+      }
+      return true;
+    }
+  </script>
 </body>
 </html>

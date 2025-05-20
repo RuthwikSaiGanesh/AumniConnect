@@ -3,93 +3,37 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ user.role }} Profile</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
-            background-color: #f4f4f9;
-        }
-        .profile-container {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 20px;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            background-color: white;
-            text-align: center;
-        }
-        .profile-container h1 {
-            color: #2c3e50;
-        }
-        .profile-photo {
-            width: 150px;
-            height: 150px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 3px solid #2980b9;
-            margin-bottom: 15px;
-        }
-        .profile-details p {
-            font-size: 18px;
-            color: #34495e;
-            line-height: 1.6;
-        }
-        .button-container {
-            margin-top: 20px;
-        }
-        .profile-btn {
-            padding: 12px 20px;
-            background-color: #007bff;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            text-decoration: none;
-            font-size: 1em;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-            margin: 10px;
-        }
-        .profile-btn:hover {
-            background-color: #0056b3;
-        }
-        .logout-btn {
-            background-color: #e74c3c;
-        }
-        .logout-btn:hover {
-            background-color: #c0392b;
-        }
-    </style>
+    <title>{{ user.name }}'s Profile</title>
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
-    <div class="profile-container">
-        <h1>{{ user.role }} Profile</h1>
-        <div class="profile-details">
-            <p><strong>Name:</strong> {{ user.name }}</p>
-            <p><strong>Email:</strong> {{ user.email }}</p>
-            
-            {% if user.role == 'Alumni' %}
-                <p><strong>Graduation Year:</strong> {{ user.grad_year }}</p>
-                <p><strong>Degree:</strong> {{ user.degree }}</p>
-                <p><strong>Specialization:</strong> {{ user.specialization }}</p>
-                <p><strong>Company:</strong> {{ user.company }}</p>
-                <p><strong>Job Title:</strong> {{ user.job_title }}</p>
-                <p><strong>Industry:</strong> {{ user.industry }}</p>
-                <p><strong>Work Experience:</strong> {{ user.work_exp }}</p>
-            {% elif user.role == 'Student' %}
+<body class="bg-gray-100 min-h-screen flex items-center justify-center">
+    <div class="bg-white shadow-lg rounded-lg w-full max-w-4xl p-8">
+        <!-- Profile Header -->
+        <div class="flex flex-col items-center">
+            <img src="{{ user.profile_photo_url }}" alt="Profile Photo" class="w-40 h-40 rounded-full object-cover border-4 border-blue-500">
+            <h1 class="text-3xl font-bold text-gray-800 mt-4">{{ user.name }}</h1>
+            <p class="text-gray-500 text-lg mt-2">{{ user.email }}</p>
+        </div>
+
+        <!-- Student Info Section -->
+        <div class="mt-8">
+            <h2 class="text-xl font-semibold text-gray-700">Student Information</h2>
+            <div class="text-gray-600 text-base mt-4 space-y-2">
                 <p><strong>Current Year:</strong> {{ user.current_year }}</p>
                 <p><strong>Degree:</strong> {{ user.degree }}</p>
                 <p><strong>Specialization:</strong> {{ user.specialization }}</p>
                 <p><strong>Enrolled Year:</strong> {{ user.enrolled_year }}</p>
-            {% elif user.role == 'Professor' %}
-                <p><strong>Department:</strong> {{ user.department }}</p>
-                <p><strong>Designation:</strong> {{ user.designation }}</p>
-                <p><strong>Experience:</strong> {{ user.experience }} years</p>
-            {% endif %}
+            </div>
         </div>
-        <div class="button-container">
-            <a href="{{ url_for('main_routes.profile_student') }}" class="profile-btn">Edit Profile</a>
-            <a href="{{ url_for('main_routes.logout') }}" class="profile-btn logout-btn">Logout</a>
+
+        <!-- Action Buttons -->
+        <div class="mt-8 flex justify-between">
+            <a href="{{ url_for('main_routes.profile') }}" class="bg-blue-500 text-white px-6 py-3 rounded-lg text-base hover:bg-blue-600 transition">
+                Edit Profile
+            </a>
+            <a href="{{ url_for('main_routes.logout') }}" class="bg-red-500 text-white px-6 py-3 rounded-lg text-base hover:bg-red-600 transition">
+                Logout
+            </a>
         </div>
     </div>
 </body>
