@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth" >
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Home - AlumniQ</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter&display=swap" rel="stylesheet" />
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+    }
+  </style>
+</head>
+<body class="bg-gray-100 min-h-screen flex flex-col transition-colors duration-300">
+
+  <header class="bg-white shadow p-4 flex justify-between items-center sticky top-0 z-10 dark:bg-gray-900">
+    <div class="text-3xl font-bold text-pink-600 dark:text-pink-400">AlumniQ</div>
+    <nav class="space-x-6 text-gray-700 font-semibold dark:text-gray-300">
+      <a href="#" class="hover:text-pink-600 dark:hover:text-pink-400">Home</a>
+      <a href="#" class="hover:text-pink-600 dark:hover:text-pink-400">My Network</a>
+      <a href="#" class="hover:text-pink-600 dark:hover:text-pink-400">Jobs</a>
+      <a href="#" class="hover:text-pink-600 dark:hover:text-pink-400">Messaging</a>
+      <a href="#" class="hover:text-pink-600 dark:hover:text-pink-400">Notifications</a>
+    </nav>
+  </header>
+
+  <main class="flex flex-grow max-w-7xl mx-auto p-6 gap-6">
+
+    <!-- Left Sidebar -->
+    <aside class="hidden lg:flex flex-col w-1/4 bg-white rounded-lg shadow p-6 space-y-6">
+      <div class="flex flex-col items-center">
+        <div class="w-24 h-24 rounded-full bg-pink-500 text-white flex items-center justify-center text-4xl font-bold uppercase mb-4">
+          {{ session.get('name', 'U')[:2] }}
+        </div>
+        <h2 class="text-xl font-semibold">{{ session.get('name', 'User') }}</h2>
+        <p class="text-gray-600 text-sm mt-1">Your professional headline</p>
+      </div>
+      <div>
+        <h3 class="text-gray-700 font-semibold mb-2">Profile Summary</h3>
+        <ul class="text-gray-600 text-sm space-y-1">
+          <li>Connections: 150</li>
+          <li>Profile Views: 300</li>
+          <li>Posts: 12</li>
+        </ul>
+      </div>
+    </aside>
+
+    <!-- Center Feed -->
+    <section class="flex-grow bg-white rounded-lg shadow p-6 max-w-3xl">
+      <div class="mb-6">
+        <textarea placeholder="Start a post" class="w-full border border-gray-300 rounded p-3 resize-none focus:outline-pink-500" rows="3"></textarea>
+        <button class="mt-2 bg-pink-600 text-white px-4 py-2 rounded hover:bg-pink-700 transition">Post</button>
+      </div>
+      <div class="space-y-6">
+        <!-- Dummy posts -->
+        <article class="border rounded p-4 shadow-sm">
+          <h4 class="font-semibold text-lg mb-2">John Doe</h4>
+          <p class="text-gray-700">Excited to share my latest project with the community!</p>
+          <div class="text-xs text-gray-500 mt-2">2 hours ago</div>
+        </article>
+        <article class="border rounded p-4 shadow-sm">
+          <h4 class="font-semibold text-lg mb-2">Jane Smith</h4>
+          <p class="text-gray-700">Looking for recommendations on data science courses.</p>
+          <div class="text-xs text-gray-500 mt-2">1 day ago</div>
+        </article>
+      </div>
+    </section>
+
+    <!-- Right Sidebar -->
+    <aside class="hidden lg:flex flex-col w-1/4 bg-white rounded-lg shadow p-6 space-y-6">
+      <div>
+        <h3 class="text-gray-700 font-semibold mb-2">People You May Know</h3>
+        <ul class="space-y-3 text-sm text-gray-600">
+          <li class="flex items-center justify-between">
+            <span>Emily Johnson</span>
+            <button class="text-pink-600 hover:underline">Connect</button>
+          </li>
+          <li class="flex items-center justify-between">
+            <span>Michael Lee</span>
+            <button class="text-pink-600 hover:underline">Connect</button>
+          </li>
+          <li class="flex items-center justify-between">
+            <span>Sarah Williams</span>
+            <button class="text-pink-600 hover:underline">Connect</button>
+          </li>
+        </ul>
+      </div>
+      <div>
+        <h3 class="text-gray-700 font-semibold mb-2">Updates</h3>
+        <ul class="space-y-3 text-sm text-gray-600">
+          <li>New course on AI starting next week</li>
+          <li>Alumni meetup scheduled for next month</li>
+          <li>System maintenance on Sunday</li>
+        </ul>
+      </div>
+    </aside>
+
+  </main>
+
+</body>
+</html>

@@ -1,0 +1,49 @@
+Entities and Attributes:
+
+1. User
+   - id (PK)
+   - name
+   - email (unique)
+   - password
+   - dob
+   - role (Enum: professor, alumni, student)
+
+2. Student
+   - id (PK, FK to User.id)
+   - course
+   - year
+   - enrolled_year
+   - degree
+   - specialization
+
+3. Alumni
+   - id (PK, FK to User.id)
+   - graduation_year
+   - company
+   - degree
+   - specialization
+   - job_title
+   - industry
+   - work_exp
+
+4. Professor
+   - id (PK, FK to User.id)
+   - department
+   - designation
+   - phone_number
+   - office
+   - experience
+
+Relationships:
+
+- User 1 --- 1 Student (optional, if role=student)
+- User 1 --- 1 Alumni (optional, if role=alumni)
+- User 1 --- 1 Professor (optional, if role=professor)
+
+Notes:
+
+- Each User has exactly one role.
+- Each role corresponds to one profile entity linked by User.id.
+- Deletion of User cascades to related profile entity.
+
+This ER diagram represents the core data model of the application.

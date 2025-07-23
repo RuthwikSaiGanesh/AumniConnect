@@ -1,108 +1,234 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ user.role.capitalize() }} Profile</title>
-    <style>
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            margin: 0;
-            padding: 0;
-            background: linear-gradient(to right, #eef2f7, #f9fbfd);
-            color: #1e293b;
-        }
-
-        .profile-container {
-            max-width: 900px;
-            margin: 40px auto;
-            padding: 30px 40px;
-            border-radius: 12px;
-            background-color: #ffffff;
-            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.05);
-            text-align: left;
-        }
-
-        .profile-container h1 {
-            color: #1e3a8a;
-            font-size: 2rem;
-            margin-bottom: 20px;
-            text-align: center;
-        }
-
-        .profile-details p {
-            font-size: 1.1rem;
-            color: #334155;
-            margin-bottom: 10px;
-        }
-
-        .profile-details strong {
-            color: #0f172a;
-        }
-
-        .button-container {
-            margin-top: 30px;
-            text-align: center;
-        }
-
-        .profile-btn {
-            padding: 12px 20px;
-            background-color: #1d4ed8;
-            color: #ffffff;
-            border: none;
-            border-radius: 6px;
-            text-decoration: none;
-            font-size: 1rem;
-            cursor: pointer;
-            margin: 0 10px;
-            transition: background-color 0.3s ease;
-            display: inline-block;
-        }
-
-        .profile-btn:hover {
-            background-color: #1e40af;
-        }
-
-        .logout-btn {
-            background-color: #dc2626;
-        }
-
-        .logout-btn:hover {
-            background-color: #b91c1c;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Professor Profile - {{ user.name }}</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter&display=swap" rel="stylesheet" />
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+    }
+  </style>
 </head>
-<body>
-    <div class="profile-container">
-        <h1>{{ user.role.capitalize() }} Profile</h1>
-        <div class="profile-details">
-            <p><strong>Name:</strong> {{ user.name }}</p>
-            <p><strong>Email:</strong> {{ user.email }}</p>
+<body class="bg-gray-100 min-h-screen flex flex-col">
 
-            {% if user.role == 'alumni' %}
-                <p><strong>Graduation Year:</strong> {{ user.grad_year }}</p>
-                <p><strong>Degree:</strong> {{ user.degree }}</p>
-                <p><strong>Specialization:</strong> {{ user.specialization }}</p>
-                <p><strong>Company:</strong> {{ user.company }}</p>
-                <p><strong>Job Title:</strong> {{ user.job_title }}</p>
-                <p><strong>Industry:</strong> {{ user.industry }}</p>
-                <p><strong>Work Experience:</strong> {{ user.work_exp }}</p>
-            {% elif user.role == 'student' %}
-                <p><strong>Current Year:</strong> {{ user.current_year }}</p>
-                <p><strong>Degree:</strong> {{ user.degree }}</p>
-                <p><strong>Specialization:</strong> {{ user.specialization }}</p>
-                <p><strong>Enrolled Year:</strong> {{ user.enrolled_year }}</p>
-            {% elif user.role == 'professor' %}
-                <p><strong>Department:</strong> {{ user.department }}</p>
-                <p><strong>Designation:</strong> {{ user.designation }}</p>
-                <p><strong>Experience:</strong> {{ user.experience }} years</p>
-            {% endif %}
-        </div>
-
-        <div class="button-container">
-            <a href="{{ url_for('main_routes.profile_p') }}" class="profile-btn">Edit Profile</a>
-            <a href="{{ url_for('main_routes.logout') }}" class="profile-btn logout-btn">Logout</a>
-        </div>
+  <!-- Banner -->
+  <div class="relative bg-pink-600 h-48 w-full">
+    <img src="{{ url_for('static', filename='background.jpg') }}" alt="Banner" class="object-cover w-full h-full opacity-70" />
+    <div class="absolute bottom-0 left-6 -mb-16">
+      <div class="w-32 h-32 rounded-full border-4 border-white overflow-hidden shadow-lg">
+        <img src="{{ url_for('static', filename='profile_placeholder.png') }}" alt="Profile Picture" class="object-cover w-full h-full" />
+      </div>
     </div>
+  </div>
+
+  <!-- Main Content -->
+  <main class="flex-grow max-w-5xl mx-auto px-6 pt-20 pb-12">
+
+    <!-- Header Buttons -->
+    <div class="flex justify-end space-x-4 mb-6">
+      <button onclick="window.location.href='{{ url_for('main_routes.home') }}'" class="bg-pink-600 text-white px-4 py-2 rounded hover:bg-pink-700 transition shadow">
+        Home
+      </button>
+      <button onclick="window.location.href='{{ url_for('main_routes.search') }}'" class="bg-gray-300 text-gray-800 px-4 py-2 rounded hover:bg-gray-400 transition shadow">
+        Search
+      </button>
+    </div>
+
+    <!-- Name and Role -->
+    <div class="ml-40">
+      <h1 class="text-3xl font-bold text-gray-900">{{ user.name }}</h1>
+      <p class="text-pink-600 font-semibold text-lg">{{ user.role | capitalize }}</p>
+      <p class="text-gray-600 mt-2">Location or summary goes here</p>
+    </div>
+
+    <!-- Editable Sections -->
+    <section class="mt-10 space-y-6">
+
+      <!-- About -->
+      <div class="bg-white rounded-lg shadow p-6">
+        <div class="flex justify-between items-center mb-4">
+          <h2 class="text-xl font-semibold">About</h2>
+          <button id="edit-about-btn" class="text-pink-600 hover:underline">Edit</button>
+        </div>
+        <div id="about-display" class="text-gray-700">
+          Brief bio or about section content goes here. This can be edited by the user.
+        </div>
+        <form id="about-form" class="hidden" method="POST" action="{{ url_for('main_routes.update_professor_profile') }}">
+          <textarea name="about" id="about-textarea" class="w-full border border-gray-300 rounded p-2" rows="4">Brief bio or about section content goes here. This can be edited by the user.</textarea>
+          <div class="mt-2 flex space-x-2">
+            <button type="submit" class="bg-pink-600 text-white px-4 py-2 rounded hover:bg-pink-700 transition">Save</button>
+            <button type="button" id="cancel-about-btn" class="bg-gray-300 text-gray-700 px-4 py-2 rounded hover:bg-gray-400 transition">Cancel</button>
+          </div>
+        </form>
+      </div>
+
+      <script>
+        const editBtn = document.getElementById('edit-about-btn');
+        const aboutDisplay = document.getElementById('about-display');
+        const aboutForm = document.getElementById('about-form');
+        const cancelBtn = document.getElementById('cancel-about-btn');
+        const aboutTextarea = document.getElementById('about-textarea');
+
+        editBtn.addEventListener('click', () => {
+          aboutDisplay.classList.add('hidden');
+          aboutForm.classList.remove('hidden');
+          aboutTextarea.focus();
+        });
+
+        cancelBtn.addEventListener('click', () => {
+          aboutForm.classList.add('hidden');
+          aboutDisplay.classList.remove('hidden');
+        });
+      </script>
+
+      <!-- Education -->
+      <div class="bg-white rounded-lg shadow p-6">
+        <div class="flex justify-between items-center mb-4">
+          <h2 class="text-xl font-semibold">Education</h2>
+          <button id="edit-education-btn" class="text-pink-600 hover:underline">Edit</button>
+        </div>
+        <div id="education-display" class="list-disc list-inside text-gray-700 space-y-2">
+          <p>Bachelor of Science in Computer Science - University A</p>
+          <p>Master of Science in Data Science - University B</p>
+        </div>
+        <form id="education-form" class="hidden" method="POST" action="{{ url_for('main_routes.update_professor_profile') }}">
+          <textarea name="education" id="education-textarea" class="w-full border border-gray-300 rounded p-2" rows="4">Bachelor of Science in Computer Science - University A
+Master of Science in Data Science - University B</textarea>
+          <div class="mt-2 flex space-x-2">
+            <button type="submit" class="bg-pink-600 text-white px-4 py-2 rounded hover:bg-pink-700 transition">Save</button>
+            <button type="button" id="cancel-education-btn" class="bg-gray-300 text-gray-700 px-4 py-2 rounded hover:bg-gray-400 transition">Cancel</button>
+          </div>
+        </form>
+      </div>
+
+      <script>
+        const editEducationBtn = document.getElementById('edit-education-btn');
+        const educationDisplay = document.getElementById('education-display');
+        const educationForm = document.getElementById('education-form');
+        const cancelEducationBtn = document.getElementById('cancel-education-btn');
+        const educationTextarea = document.getElementById('education-textarea');
+
+        editEducationBtn.addEventListener('click', () => {
+          educationDisplay.classList.add('hidden');
+          educationForm.classList.remove('hidden');
+          educationTextarea.focus();
+        });
+
+        cancelEducationBtn.addEventListener('click', () => {
+          educationForm.classList.add('hidden');
+          educationDisplay.classList.remove('hidden');
+        });
+      </script>
+      <!-- Experience -->
+      <div class="bg-white rounded-lg shadow p-6">
+        <div class="flex justify-between items-center mb-4">
+          <h2 class="text-xl font-semibold">Experience</h2>
+          <button id="edit-experience-btn" class="text-pink-600 hover:underline">Edit</button>
+        </div>
+        <div id="experience-display" class="list-disc list-inside text-gray-700 space-y-2">
+          <p>Professor at XYZ University (2015 - Present)</p>
+          <p>Data Scientist at ABC Corp (2010 - 2015)</p>
+        </div>
+        <form id="experience-form" class="hidden" method="POST" action="{{ url_for('main_routes.update_professor_profile') }}">
+          <textarea name="experience" id="experience-textarea" class="w-full border border-gray-300 rounded p-2" rows="4">Professor at XYZ University (2015 - Present)
+Data Scientist at ABC Corp (2010 - 2015)</textarea>
+          <div class="mt-2 flex space-x-2">
+            <button type="submit" class="bg-pink-600 text-white px-4 py-2 rounded hover:bg-pink-700 transition">Save</button>
+            <button type="button" id="cancel-experience-btn" class="bg-gray-300 text-gray-700 px-4 py-2 rounded hover:bg-gray-400 transition">Cancel</button>
+          </div>
+        </form>
+      </div>
+
+      <script>
+        const editExperienceBtn = document.getElementById('edit-experience-btn');
+        const experienceDisplay = document.getElementById('experience-display');
+        const experienceForm = document.getElementById('experience-form');
+        const cancelExperienceBtn = document.getElementById('cancel-experience-btn');
+        const experienceTextarea = document.getElementById('experience-textarea');
+
+        editExperienceBtn.addEventListener('click', () => {
+          experienceDisplay.classList.add('hidden');
+          experienceForm.classList.remove('hidden');
+          experienceTextarea.focus();
+        });
+
+        cancelExperienceBtn.addEventListener('click', () => {
+          experienceForm.classList.add('hidden');
+          experienceDisplay.classList.remove('hidden');
+        });
+      </script>
+      <!-- Skills -->
+      <div class="bg-white rounded-lg shadow p-6">
+        <div class="flex justify-between items-center mb-4">
+          <h2 class="text-xl font-semibold">Skills</h2>
+          <button id="edit-skills-btn" class="text-pink-600 hover:underline">Edit</button>
+        </div>
+        <div id="skills-display" class="flex flex-wrap gap-2">
+          <span class="bg-pink-100 text-pink-700 px-3 py-1 rounded-full text-sm">Python</span>
+          <span class="bg-pink-100 text-pink-700 px-3 py-1 rounded-full text-sm">Data Science</span>
+          <span class="bg-pink-100 text-pink-700 px-3 py-1 rounded-full text-sm">Machine Learning</span>
+          <span class="bg-pink-100 text-pink-700 px-3 py-1 rounded-full text-sm">Teaching</span>
+        </div>
+        <form id="skills-form" class="hidden" method="POST" action="{{ url_for('main_routes.update_professor_profile') }}">
+          <input type="text" name="skills" id="skills-input" class="w-full border border-gray-300 rounded p-2" value="Python, Data Science, Machine Learning, Teaching" />
+          <div class="mt-2 flex space-x-2">
+            <button type="submit" class="bg-pink-600 text-white px-4 py-2 rounded hover:bg-pink-700 transition">Save</button>
+            <button type="button" id="cancel-skills-btn" class="bg-gray-300 text-gray-700 px-4 py-2 rounded hover:bg-gray-400 transition">Cancel</button>
+          </div>
+        </form>
+      </div>
+
+      <script>
+        const editSkillsBtn = document.getElementById('edit-skills-btn');
+        const skillsDisplay = document.getElementById('skills-display');
+        const skillsForm = document.getElementById('skills-form');
+        const cancelSkillsBtn = document.getElementById('cancel-skills-btn');
+        const skillsInput = document.getElementById('skills-input');
+
+        editSkillsBtn.addEventListener('click', () => {
+          skillsDisplay.classList.add('hidden');
+          skillsForm.classList.remove('hidden');
+          skillsInput.focus();
+        });
+
+        cancelSkillsBtn.addEventListener('click', () => {
+          skillsForm.classList.add('hidden');
+          skillsDisplay.classList.remove('hidden');
+        });
+      </script>
+
+      <!-- Experience -->
+      <div class="bg-white rounded-lg shadow p-6">
+        <div class="flex justify-between items-center mb-4">
+          <h2 class="text-xl font-semibold">Experience</h2>
+          <button class="text-pink-600 hover:underline">Edit</button>
+        </div>
+        <ul class="list-disc list-inside text-gray-700 space-y-2">
+          <li>Professor at XYZ University (2015 - Present)</li>
+          <li>Data Scientist at ABC Corp (2010 - 2015)</li>
+        </ul>
+      </div>
+
+      <!-- Skills -->
+      <div class="bg-white rounded-lg shadow p-6">
+        <div class="flex justify-between items-center mb-4">
+          <h2 class="text-xl font-semibold">Skills</h2>
+          <button class="text-pink-600 hover:underline">Edit</button>
+        </div>
+        <div class="flex flex-wrap gap-2">
+          <span class="bg-pink-100 text-pink-700 px-3 py-1 rounded-full text-sm">Python</span>
+          <span class="bg-pink-100 text-pink-700 px-3 py-1 rounded-full text-sm">Data Science</span>
+          <span class="bg-pink-100 text-pink-700 px-3 py-1 rounded-full text-sm">Machine Learning</span>
+          <span class="bg-pink-100 text-pink-700 px-3 py-1 rounded-full text-sm">Teaching</span>
+        </div>
+      </div>
+
+    </section>
+
+  </main>
+
 </body>
 </html>

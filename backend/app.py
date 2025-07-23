@@ -87,6 +87,7 @@ def create_app():
     def check_logged_in():
         public_endpoints = [
             'main_routes.select_role', 'main_routes.login', 'main_routes.create_account',
+            'main_routes.admin_login',
             'login', 'create_account', 'static'
         ]
         if 'email' not in session and request.endpoint not in public_endpoints:

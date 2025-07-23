@@ -11,7 +11,8 @@ main_routes = Blueprint('main_routes', __name__)
 
 @main_routes.route('/')
 def home():
-    return redirect(url_for('main_routes.select_role'))
+    return render_template('home.html')
+
 
 @main_routes.route('/select_role', methods=['GET', 'POST'])
 def select_role():
@@ -19,11 +20,84 @@ def select_role():
         role = request.form.get('role')
         if role in ['alumni', 'student', 'professor']:
             return redirect(url_for('main_routes.login', role=role))
-        if role == 'admin':
-            # Added this to handle Admin button click in select_role.html
-            return redirect(url_for('main_routes.admin_login'))
         flash('Please select a valid role.', 'error')
+    else:
+        role = request.args.get('role')
+        if role == 'admin':
+            return redirect(url_for('main_routes.admin_login'))
     return render_template('select_role.html')
+
+@main_routes.route('/search')
+def search():
+    return render_template('search.html')
+
+@main_routes.route('/api/search_users')
+def api_search_users():
+    q = request.args.get('q', '').strip()
+    if not q:
+        return []
+
+    users = User.query.filter(User.name.ilike(f'%{q}%')).limit(10).all()
+
+    results = []
+    for user in users:
+        profile_pic = url_for('static', filename='profile_placeholder.png')
+        results.append({
+            'name': user.name,
+            'email': user.email,
+            'role': user.role,
+            'profile_pic': profile_pic
+        })
+    return results
+
+@main_routes.route('/update_professor_profile', methods=['POST'])
+def update_professor_profile():
+    email = session.get('email')
+    user = User.query.filter_by(email=email, role='professor').first()
+    if not user:
+        flash('Unauthorized access. Please login.', 'error')
+        return redirect(url_for('main_routes.login', role='professor'))
+
+    about = request.form.get('about')
+    education = request.form.get('education')
+    experience = request.form.get('experience')
+    skills = request.form.get('skills')
+
+    # Here you would update the professor's profile fields in the database
+    # For demonstration, assume these fields exist on the Professor model or related tables
+    # You may need to adjust based on your actual data model
+
+    # Example: store these fields as JSON or text in a profile table or columns
+    # For now, just flash a message and redirect
+
+    flash('Profile updated successfully.', 'success')
+    return redirect(url_for('main_routes.profile_p'))
+
+@main_routes.route('/update_alumni_profile', methods=['POST'])
+def update_alumni_profile():
+    email = session.get('email')
+    user = User.query.filter_by(email=email, role='alumni').first()
+    if not user:
+        flash('Unauthorized access. Please login.', 'error')
+        return redirect(url_for('main_routes.login', role='alumni'))
+
+    # Similar update logic for alumni profile fields
+
+    flash('Profile updated successfully.', 'success')
+    return redirect(url_for('main_routes.profile_alumni'))
+
+@main_routes.route('/update_student_profile', methods=['POST'])
+def update_student_profile():
+    email = session.get('email')
+    user = User.query.filter_by(email=email, role='student').first()
+    if not user:
+        flash('Unauthorized access. Please login.', 'error')
+        return redirect(url_for('main_routes.login', role='student'))
+
+    # Similar update logic for student profile fields
+
+    flash('Profile updated successfully.', 'success')
+    return redirect(url_for('main_routes.profile'))
 
 @main_routes.route('/create_account', methods=['GET', 'POST'])
 def create_account():
@@ -115,7 +189,7 @@ def login():
         password = request.form.get('password')
         user = User.query.filter_by(email=email, role=role).first()
 
-        if user and user.password == password:
+        if user and user.check_password(password):
             session['email'] = email
             if role == "student":
                 return redirect(url_for("main_routes.profile"))
@@ -123,6 +197,8 @@ def login():
                 return redirect(url_for("main_routes.profile_p"))
             elif role == "alumni":
                 return redirect(url_for("main_routes.profile_alumni"))
+            elif role == "admin":
+                return redirect(url_for("main_routes.DBMSAdmin"))
         else:
             flash('Invalid email or password.', 'error')
             return render_template(template_path, error="Invalid email or password.")
@@ -172,7 +248,7 @@ def logout():
 def settings():
     return render_template('select_roleSETTINGS.html')
 
-@main_routes.route('/admin_dashboard')
+@main_routes.route('/admin')
 def admin_dashboard():
     if not session.get('admin'):
         return redirect(url_for('main_routes.admin_login'))
@@ -202,7 +278,7 @@ def download_users():
     response.headers["Content-type"] = "text/csv"
     return response
 
-@main_routes.route('/admin', methods=['GET', 'POST'])
+@main_routes.route('/admin_login', methods=['GET', 'POST'])
 def admin_login():
     error = None
     if request.method == 'POST':
@@ -211,13 +287,15 @@ def admin_login():
         # Replace with your admin credentials check
         if username == 'RuthwikSaiGanesh' and password == 'Rusaga@252817':
             session['admin'] = True
-            return redirect(url_for('main_routes.select_roleDBMS'))
+            session['email'] = username  # Set email in session to pass before_request check
+            session['role'] = 'admin'    # Optionally set role
+            return redirect(url_for('main_routes.DBMSAdmin'))
         else:
             error = "Invalid admin credentials."
     return render_template('admin_login.html', error=error)
 
-@main_routes.route('/dbms', methods=['GET', 'POST'])
-def select_roleDBMS():
+@main_routes.route('/DBMSAdmin', methods=['GET', 'POST'])
+def DBMSAdmin():
     # Only allow admin
     if not session.get('admin'):
         flash('Admin access required.', 'error')
@@ -225,7 +303,7 @@ def select_roleDBMS():
 
     # Fetch all users for the table
     users = User.query.all()
-    columns = ['id', 'name', 'email', 'role', 'dob']  # Add/remove columns as needed
+    columns = ['id', 'name', 'email', 'password', 'role', 'dob']  # Added 'password' column
 
     # Convert users to list of dicts for Jinja2
     users_data = []
@@ -234,11 +312,16 @@ def select_roleDBMS():
             'id': user.id,
             'name': user.name,
             'email': user.email,
+            'password': user.password,
             'role': user.role,
             'dob': user.dob.strftime('%Y-%m-%d') if user.dob else ''
         })
 
-    return render_template('select_roleDBMS.html', users=users_data, columns=columns)
+    return render_template('DBMSAdmin.html', users=users_data, columns=columns)
+
+@main_routes.route('/dbmsadmin', methods=['GET', 'POST'])
+def dbmsadmin_lowercase_redirect():
+    return redirect(url_for('main_routes.DBMSAdmin'))
 
 @main_routes.route('/add_user', methods=['POST'])
 def add_user():
@@ -252,13 +335,39 @@ def add_user():
     user = User(name=name, email=email, role=role, dob=dob, password='default')
     db.session.add(user)
     db.session.commit()
-    return redirect(url_for('main_routes.select_roleDBMS'))
+    return redirect(url_for('main_routes.DBMSAdmin'))
 
-@main_routes.route('/edit_user', methods=['POST'])
-def edit_user():
-    # For demo: just redirect, you can implement a full edit form if needed
-    flash('Edit functionality not implemented in this demo.', 'info')
-    return redirect(url_for('main_routes.Select_roleDBMS'))
+@main_routes.route('/edit_user/<int:user_id>', methods=['GET', 'POST'])
+def edit_user(user_id):
+    if not session.get('admin'):
+        flash('Admin access required.', 'error')
+        return redirect(url_for('main_routes.admin_login'))
+
+    user = User.query.get(user_id)
+    if not user:
+        flash('User not found.', 'error')
+        return redirect(url_for('main_routes.DBMSAdmin'))
+
+    if request.method == 'POST':
+        # Update user attributes from form data
+        user.name = request.form.get('name')
+        user.email = request.form.get('email').lower()
+        user.password = request.form.get('password')  # Update password as well
+        user.role = request.form.get('role')
+        dob_str = request.form.get('dob')
+        user.dob = datetime.strptime(dob_str, "%Y-%m-%d").date() if dob_str else None
+
+        try:
+            db.session.commit()
+            flash('User updated successfully.', 'success')
+            return redirect(url_for('main_routes.DBMSAdmin'))
+        except Exception as e:
+            db.session.rollback()
+            flash(f'Error updating user: {e}', 'error')
+            return render_template('edit_user.html', user=user)
+
+    # GET request - render edit form
+    return render_template('edit_user.html', user=user)
 
 @main_routes.route('/delete_user', methods=['POST'])
 def delete_user():
@@ -273,4 +382,119 @@ def delete_user():
         flash('User deleted.', 'success')
     else:
         flash('User not found.', 'error')
-    return redirect(url_for('main_routes.select_roleDBMS'))
+    return redirect(url_for('main_routes.DBMSAdmin'))
+
+@main_routes.route('/add_student', methods=['POST'])
+def add_student():
+    if not session.get('admin'):
+        flash('Admin access required.', 'error')
+        return redirect(url_for('main_routes.admin_login'))
+    try:
+        name = request.form.get('name')
+        email = request.form.get('email').lower()
+        password = request.form.get('password')
+        dob_str = request.form.get('dob')
+        dob = datetime.strptime(dob_str, "%Y-%m-%d").date() if dob_str else None
+        course = request.form.get('course')
+        year = request.form.get('year')
+        enrolled_year = request.form.get('enrolled_year')
+        degree = request.form.get('degree')
+        specialization = request.form.get('specialization')
+
+        new_user = User(name=name, email=email, password=password, role='student', dob=dob)
+        db.session.add(new_user)
+        db.session.flush()
+
+        student = Student(
+            id=new_user.id,
+            course=course,
+            year=year,
+            enrolled_year=enrolled_year,
+            degree=degree,
+            specialization=specialization
+        )
+        db.session.add(student)
+        db.session.commit()
+        flash('Student added successfully.', 'success')
+    except Exception as e:
+        db.session.rollback()
+        flash(f'Error adding student: {e}', 'error')
+    return redirect(url_for('main_routes.DBMSAdmin'))
+
+@main_routes.route('/add_professor', methods=['POST'])
+def add_professor():
+    if not session.get('admin'):
+        flash('Admin access required.', 'error')
+        return redirect(url_for('main_routes.admin_login'))
+    try:
+        name = request.form.get('name')
+        email = request.form.get('email').lower()
+        password = request.form.get('password')
+        dob_str = request.form.get('dob')
+        dob = datetime.strptime(dob_str, "%Y-%m-%d").date() if dob_str else None
+        department = request.form.get('department')
+        designation = request.form.get('designation')
+        phone_number = request.form.get('phone_number')
+        office = request.form.get('office')
+        experience = request.form.get('experience')
+
+        new_user = User(name=name, email=email, password=password, role='professor', dob=dob)
+        db.session.add(new_user)
+        db.session.flush()
+
+        professor = Professor(
+            id=new_user.id,
+            department=department,
+            designation=designation,
+            phone_number=phone_number,
+            office=office,
+            experience=experience
+        )
+        db.session.add(professor)
+        db.session.commit()
+        flash('Professor added successfully.', 'success')
+    except Exception as e:
+        db.session.rollback()
+        flash(f'Error adding professor: {e}', 'error')
+    return redirect(url_for('main_routes.DBMSAdmin'))
+
+@main_routes.route('/add_alumni', methods=['POST'])
+def add_alumni():
+    if not session.get('admin'):
+        flash('Admin access required.', 'error')
+        return redirect(url_for('main_routes.admin_login'))
+    try:
+        name = request.form.get('name')
+        email = request.form.get('email').lower()
+        password = request.form.get('password')
+        dob_str = request.form.get('dob')
+        dob = datetime.strptime(dob_str, "%Y-%m-%d").date() if dob_str else None
+        graduation_year = request.form.get('graduation_year')
+        company = request.form.get('company')
+        degree = request.form.get('degree')
+        specialization = request.form.get('specialization')
+        job_title = request.form.get('job_title')
+        industry = request.form.get('industry')
+        work_exp = request.form.get('work_exp')
+
+        new_user = User(name=name, email=email, password=password, role='alumni', dob=dob)
+        db.session.add(new_user)
+        db.session.flush()
+
+        alumni = Alumni(
+            id=new_user.id,
+            graduation_year=graduation_year,
+            company=company,
+            degree=degree,
+            specialization=specialization,
+            job_title=job_title,
+            industry=industry,
+            work_exp=work_exp
+        )
+        db.session.add(alumni)
+        db.session.commit()
+        flash('Alumni added successfully.', 'success')
+    except Exception as e:
+        db.session.rollback()
+        flash(f'Error adding alumni: {e}', 'error')
+    return redirect(url_for('main_routes.DBMSAdmin'))

@@ -6,26 +6,28 @@
     <title>Select Role | AlumniConnect</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
 </head>
-<body class="bg-gray-100 font-sans">
+<body class="bg-gray-100 font-sans relative">
 
     <!-- Header -->
     <header class="bg-blue-600 text-white shadow">
         <div class="container mx-auto px-6 py-4 flex justify-between items-center">
             <h1 class="text-2xl font-bold">AlumniConnect</h1>
-            <nav>
-                <ul class="flex space-x-4 text-sm">
-                    <li>
-                        <a href="/settings" class="bg-blue-500 hover:bg-blue-700 text-white px-4 py-2 rounded transition">
-                            Settings
-                        </a>
-                    </li>
-                    <li>
-                        <a href="{{ url_for('main_routes.admin_login') }}"
-                            class="bg-gray-200 hover:bg-gray-300 text-blue-700 px-4 py-2 rounded transition">
-                            Admin
-                        </a>
-                    </li>
-                </ul>
+            <nav class="flex items-center space-x-4 text-sm relative">
+                <a href="{{ url_for('main_routes.admin_login') }}"
+                   class="bg-gray-200 hover:bg-gray-300 text-blue-700 px-4 py-2 rounded transition">
+                    Admin
+                </a>
+                <div class="relative inline-block text-left">
+                    <button id="settings-button" aria-haspopup="true" aria-expanded="false" class="inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-3 py-1 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none" type="button">
+                        ⚙️
+                    </button>
+                    <div id="settings-menu" class="origin-top-right absolute right-0 mt-2 w-40 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 hidden z-20">
+                        <div class="py-1" role="menu" aria-orientation="vertical" aria-labelledby="settings-button">
+                            <button type="button" id="light-mode-btn" class="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">Light Mode</button>
+                            <button type="button" id="dark-mode-btn" class="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">Dark Mode</button>
+                        </div>
+                    </div>
+                </div>
             </nav>
         </div>
     </header>
@@ -39,13 +41,15 @@
     </section>
 
     <!-- Role Selection Cards -->
-        <section class="container mx-auto px-4 py-12 grid gap-8 sm:grid-cols-1 md:grid-cols-3 text-center auto-rows-max">        <!-- Alumni -->
+    <section class="container mx-auto px-4 py-12 grid gap-8 sm:grid-cols-1 md:grid-cols-3 text-center">
+        
+        <!-- Alumni -->
         <form action="/select_role" method="POST"
-            class="bg-white shadow-lg rounded-lg p-6 hover:shadow-xl transition duration-300 transform hover:-translate-y-1">
+              class="bg-white shadow-lg rounded-xl p-6 hover:shadow-2xl transition-transform duration-300 transform hover:-translate-y-1">
             <input type="hidden" name="role" value="alumni" />
             <button type="submit" class="w-full">
                 <img src="https://img.icons8.com/ios-filled/100/000000/graduation-cap.png"
-                    class="mx-auto mb-4 w-16 h-16" alt="Alumni" />
+                     class="mx-auto mb-4 w-16 h-16" alt="Alumni" />
                 <h3 class="text-xl font-semibold text-blue-600">Alumni</h3>
                 <p class="text-sm text-gray-500 mt-2">
                     Connect with your peers, share stories and stay in touch.
@@ -55,11 +59,11 @@
 
         <!-- Student -->
         <form action="/select_role" method="POST"
-            class="bg-white shadow-lg rounded-lg p-6 hover:shadow-xl transition duration-300 transform hover:-translate-y-1">
+              class="bg-white shadow-lg rounded-xl p-6 hover:shadow-2xl transition-transform duration-300 transform hover:-translate-y-1">
             <input type="hidden" name="role" value="student" />
             <button type="submit" class="w-full">
                 <img src="https://img.icons8.com/ios-filled/100/000000/student-male.png"
-                    class="mx-auto mb-4 w-16 h-16" alt="Student" />
+                     class="mx-auto mb-4 w-16 h-16" alt="Student" />
                 <h3 class="text-xl font-semibold text-blue-600">Student</h3>
                 <p class="text-sm text-gray-500 mt-2">
                     Explore alumni paths and unlock career guidance.
@@ -69,32 +73,17 @@
 
         <!-- Professor -->
         <form action="/select_role" method="POST"
-            class="bg-white shadow-lg rounded-lg p-6 hover:shadow-xl transition duration-300 transform hover:-translate-y-1">
+              class="bg-white shadow-lg rounded-xl p-6 hover:shadow-2xl transition-transform duration-300 transform hover:-translate-y-1">
             <input type="hidden" name="role" value="professor" />
             <button type="submit" class="w-full">
                 <img src="https://img.icons8.com/ios-filled/100/000000/classroom.png"
-                    class="mx-auto mb-4 w-16 h-16" alt="Professor" />
+                     class="mx-auto mb-4 w-16 h-16" alt="Professor" />
                 <h3 class="text-xl font-semibold text-blue-600">Professor</h3>
                 <p class="text-sm text-gray-500 mt-2">
                     Support students and maintain academic relationships.
                 </p>
             </button>
         </form>
-
-        <!-- Admin -->
-        <form action="/select_role" method="POST"
-            class="bg-white shadow-lg rounded-lg p-6 hover:shadow-xl transition duration-300 transform hover:-translate-y-1 mx-auto w-64">
-            <input type="hidden" name="role" value="admin" />
-            <button type="submit" class="w-full">
-                <img src="https://img.icons8.com/ios-filled/100/000000/administrator-male.png"
-                    class="mx-auto mb-4 w-16 h-16" alt="Admin" />
-                <h3 class="text-xl font-semibold text-blue-600">Admin</h3>
-                <p class="text-sm text-gray-500 mt-2">
-                    Manage the platform and user data with admin privileges.
-                </p>
-            </button>
-        </form>
-
 
     </section>
 
@@ -103,5 +92,51 @@
         &copy; 2025 Jyothy Institute of Technology, Tataguni, Bangalore. All rights reserved.
     </footer>
 
+    <script>
+      document.addEventListener('DOMContentLoaded', () => {
+        const settingsButton = document.getElementById('settings-button');
+        const settingsMenu = document.getElementById('settings-menu');
+        const lightModeBtn = document.getElementById('light-mode-btn');
+        const darkModeBtn = document.getElementById('dark-mode-btn');
+
+        // Toggle menu visibility
+        settingsButton.addEventListener('click', (event) => {
+          event.stopPropagation();
+          settingsMenu.classList.toggle('hidden');
+        });
+
+        // Close menu when clicking outside
+        document.addEventListener('click', (event) => {
+          if (!settingsButton.contains(event.target) && !settingsMenu.contains(event.target)) {
+            settingsMenu.classList.add('hidden');
+          }
+        });
+
+        // Apply theme and save preference
+        function applyTheme(theme) {
+          if (theme === 'dark') {
+            document.documentElement.classList.add('dark');
+            localStorage.setItem('theme', 'dark');
+          } else {
+            document.documentElement.classList.remove('dark');
+            localStorage.setItem('theme', 'light');
+          }
+        }
+
+        // Load saved theme on page load
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        applyTheme(savedTheme);
+
+        lightModeBtn.addEventListener('click', () => {
+          applyTheme('light');
+          settingsMenu.classList.add('hidden');
+        });
+
+        darkModeBtn.addEventListener('click', () => {
+          applyTheme('dark');
+          settingsMenu.classList.add('hidden');
+        });
+      });
+    </script>
 </body>
 </html>
